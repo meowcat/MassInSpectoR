@@ -1,18 +1,3 @@
-library(shiny)
-library(shinyjs)
-library(MSnbase)
-library(RMassBank)
-library(rcdk)
-library(splashR)
-library(zoo)
-
-# ketcherDir <- "C:/Daten/R scripts/KetcheR/inst/html"
-# jsDir <- "C:/Daten/R scripts/KetcheR/inst/js"
-# 
-# addResourcePath("ketcher", ketcherDir)
-# addResourcePath("js", jsDir)
-# addResourcePath("icons", "C:/Daten/R scripts/KetcheR/inst/html/icons")
-
 
 .Workbench.server <- function(input, output, session)
 {
@@ -853,7 +838,7 @@ mPanel <-   tabsetPanel(
                 
 
 
-runBench <- function(options = getOption(.packageName))
+runBench <- function(db = data.frame(), options = getOption(.packageName))
 {
   
   if(is.null(options))
@@ -862,13 +847,19 @@ runBench <- function(options = getOption(.packageName))
                  "-options"))
   }
   
-  gfpath <- options$path.GenForm
-  cfmPath <- "C:/Software/cfm-id-2.0_win32/cfm-predict.exe"
-  cfmSettings <- "0.001 C:/Software/cfm-id-2.0_win32/param_output.log C:/Software/cfm-id-2.0_win32/param_config.txt 1"
-  
+  gfpath <- options$GenForm.path
+  cfmPath <- options$CFMID.path
+  cfmSettings <- options$CFMID.settings
   
   shinyErr <- options("shiny.error")
   options("shiny.error" = NULL) 
+  
+  
+  # load MassBank DB if available
+  compounds <- unique(db$CompoundID)
+  compoundTable <- data.frame(cpd = as.character(compounds), 
+      name = as.character(db[match(compounds, db[,"CompoundID"]),"Name"]))
+  
   
   if(is.null("gfpath")){
     message("-----------------------------------------------------")

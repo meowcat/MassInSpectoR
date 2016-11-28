@@ -112,11 +112,3 @@ extractFrags <- function(all.frag, id, opCE)
   info$found <- TRUE
   return(list(info=info, spectrum=y))
 }
-
-db.fi <- list.files("C:/Daten/Support/Jen - uncleaned spectra/tables", "_pos.csv", full.names = TRUE)
-db.tot <- lapply(db.fi, read.csv)
-db <- do.call(rbind, db.tot)
-rm(db.tot)
-
-compounds <- unique(db$CompoundID)
-compoundTable <- data.frame(cpd = as.character(compounds), name = as.character(db[match(compounds, db[,"CompoundID"]),"Name"]))

@@ -1,9 +1,28 @@
-Package: KetcheR
+Package: MassInSpectoR
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
+Title: Tools for MS2 analysis
+Version: 0.1
 Date: 2015-11-12
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Michael A. Stravs <stravsmi@eawag.ch>
+Maintainer: Michael A. Stravs <stravsmi@eawag.ch>
+Description: Integration of features for compound identification from RMassBank,
+  CFM-ID, GenForm with GUI for molecule drawing
+License: Artistic-2.0
+Collate:
+  package.R
+  cdBinding.R
+  sameCEdata_func.R
+  shiftmatch.R
+  similarityFunctions.R
+  spectrumMerging.R
+  extractFragments.R
+  Workbench.R
+Depends:
+  shiny
+  shinyjs
+  MSnbase
+  RMassBank
+  rcdk
+  splashR
+  zoo
+  chemdoodle

@@ -1,0 +1,38 @@
+---
+title: "Examples in MassInSpectoR"
+author: "Michael A. Stravs <stravsmi@eawag.ch>"
+date: "28 November 2016"
+output: html_vignette
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Loading a MassBank library in table form:
+
+```{r}
+
+db.fi <- list.files("C:/Daten/Support/Jen - uncleaned spectra/tables", "_pos.csv", full.names = TRUE)
+db.tot <- lapply(db.fi, read.csv)
+db <- do.call(rbind, db.tot)
+rm(db.tot)
+```
+
+Settings example:
+
+```{r}
+settings <- list()
+settings$GenForm.path <- "C:/Software/GenForm/GenForm.exe"
+settings$CFMID.path <- "C:/Software/cfm-id-2.0_win32/cfm-predict.exe"
+settings$CFMID.settings <- "0.001 C:/Software/cfm-id-2.0_win32/param_output.log C:/Software/cfm-id-2.0_win32/param_config.txt 1"
+
+options("MassInSpectoR" = settings)
+```
+
+
+
+
+
