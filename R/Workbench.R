@@ -860,6 +860,10 @@ runBench <- function(db = .packageEnv$db, options = getOption(.packageName))
   
   
   # load MassBank DB if available
+  # if no DB available, throw an error
+  if(is.null(db))
+    stop("no database here!")
+  
   compounds <- unique(db$CompoundID)
   compoundTable <- data.frame(cpd = as.character(compounds), 
       name = as.character(db[match(compounds, db[,"CompoundID"]),"Name"]))
