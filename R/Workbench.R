@@ -13,10 +13,8 @@ library(zoo)
 # addResourcePath("js", jsDir)
 # addResourcePath("icons", "C:/Daten/R scripts/KetcheR/inst/html/icons")
 
-cfmPath <- "C:/Software/cfm-id-2.0_win32/cfm-predict.exe"
-cfmSettings <- "0.001 C:/Software/cfm-id-2.0_win32/param_output.log C:/Software/cfm-id-2.0_win32/param_config.txt 1"
 
-server <- function(input, output, session)
+.Workbench.server <- function(input, output, session)
 {
   #output$smiles <- reactive({input$smi})
   container <- reactiveValues(
@@ -733,7 +731,7 @@ mPanel <-   tabsetPanel(
 
 
 
-ui <- fluidPage(
+.Workbench.ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       #fileInput("refspec", "Comparison")
@@ -854,18 +852,38 @@ ui <- fluidPage(
 ) # ui
                 
 
-options("shiny.error" = NULL)
-if(!exists("gfpath")){
+
+runBench <- function(options = getOption(.packageName))
+{
+  
+  if(is.null(options))
+  {
+    error(paste0("Set options with option(", .packageName, ") or pass optionList to function alternatively. ?", .packageName,
+                 "-options"))
+  }
+  
+  gfpath <- options$path.GenForm
+  cfmPath <- "C:/Software/cfm-id-2.0_win32/cfm-predict.exe"
+  cfmSettings <- "0.001 C:/Software/cfm-id-2.0_win32/param_output.log C:/Software/cfm-id-2.0_win32/param_config.txt 1"
+  
+  
+  shinyErr <- options("shiny.error")
+  options("shiny.error" = NULL) 
+  
+  if(is.null("gfpath")){
+    message("-----------------------------------------------------")
+    message("Path to GenForm.exe is not set!")
+    message("Before running this shiny app, set the GenForm path like this:")
+    message("gfpath <- \"C:/Software/GenForm/GenForm.exe\" ")
+    #gfpath <- "C:/Software/GenForm/GenForm.exe"
+  }
   message("-----------------------------------------------------")
-  message("Path to GenForm.exe is not set!")
-  message("Before running this shiny app, set the GenForm path like this:")
-  message("gfpath <- \"C:/Software/GenForm/GenForm.exe\" ")
-  #gfpath <- "C:/Software/GenForm/GenForm.exe"
+  message("Ignore all warnings and errors here. They are normal.")
+  message("-----------------------------------------------------")
+  
+  
+  
+  shinyApp(ui = .Workbench.ui, server = .Workbench.server)
+  options("shiny.error" = shinyErr)
 }
-message("-----------------------------------------------------")
-message("Ignore all warnings and errors here. They are normal.")
-message("-----------------------------------------------------")
-
-
-shinyApp(ui=ui, server=server)
 
