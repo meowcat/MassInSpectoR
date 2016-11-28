@@ -14,11 +14,11 @@ knitr::opts_chunk$set(echo = TRUE)
 Loading a MassBank library in table form:
 
 ```{r}
-
-db.fi <- list.files("C:/Daten/Support/Jen - uncleaned spectra/tables", "_pos.csv", full.names = TRUE)
-db.tot <- lapply(db.fi, read.csv)
-db <- do.call(rbind, db.tot)
-rm(db.tot)
+# 
+# db.fi <- list.files("C:/Daten/Support/Jen - uncleaned spectra/tables", "_pos.csv", full.names = TRUE)
+# db.tot <- lapply(db.fi, read.csv)
+# db <- do.call(rbind, db.tot)
+# rm(db.tot)
 ```
 
 Settings example:

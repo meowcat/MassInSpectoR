@@ -18,11 +18,12 @@ Collate:
   extractFragments.R
   Workbench.R
 Depends:
-  shiny
-  shinyjs
-  MSnbase
-  RMassBank
-  rcdk
-  splashR
-  zoo
-  chemdoodle
+  shiny,
+  shinyjs,
+  MSnbase,
+  RMassBank,
+  rcdk,
+  splashR,
+  zoo,
+  chemdoodle,
+  yaml

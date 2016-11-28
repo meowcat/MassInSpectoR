@@ -1,5 +1,7 @@
 
-.Workbench.server <- function(input, output, session)
+.Workbench.server <- function(db, gfpath, cfmPath, cfmSettings)
+{
+  function(input, output, session)
 {
   #output$smiles <- reactive({input$smi})
   container <- reactiveValues(
@@ -683,7 +685,7 @@
   
   
 }
-
+}
 
 
 mPanel <-   tabsetPanel(
@@ -716,7 +718,9 @@ mPanel <-   tabsetPanel(
 
 
 
-.Workbench.ui <- fluidPage(
+.Workbench.ui <- function(compounds)
+{
+  fluidPage(
   sidebarLayout(
     sidebarPanel(
       #fileInput("refspec", "Comparison")
@@ -835,15 +839,15 @@ mPanel <-   tabsetPanel(
     ) # mainPanel
   ) # sidebarLayout
 ) # ui
-                
+}                
 
 
-runBench <- function(db = data.frame(), options = getOption(.packageName))
+runBench <- function(db = .packageEnv$db, options = getOption(.packageName))
 {
   
   if(is.null(options))
   {
-    error(paste0("Set options with option(", .packageName, ") or pass optionList to function alternatively. ?", .packageName,
+    stop(paste0("Set options with option(", .packageName, ") or pass optionList to function alternatively. ?", .packageName,
                  "-options"))
   }
   
@@ -861,7 +865,7 @@ runBench <- function(db = data.frame(), options = getOption(.packageName))
       name = as.character(db[match(compounds, db[,"CompoundID"]),"Name"]))
   
   
-  if(is.null("gfpath")){
+  if(is.null(gfpath)){
     message("-----------------------------------------------------")
     message("Path to GenForm.exe is not set!")
     message("Before running this shiny app, set the GenForm path like this:")
@@ -872,9 +876,11 @@ runBench <- function(db = data.frame(), options = getOption(.packageName))
   message("Ignore all warnings and errors here. They are normal.")
   message("-----------------------------------------------------")
   
-  
-  
-  shinyApp(ui = .Workbench.ui, server = .Workbench.server)
+  #addResourcePath("js", system.file("js", package=.packageName))
+  runApp(shinyApp(ui = .Workbench.ui(compounds), 
+                  server = .Workbench.server(
+                    db, gfpath, cfmPath, cfmSettings
+                  )))
   options("shiny.error" = shinyErr)
 }
 

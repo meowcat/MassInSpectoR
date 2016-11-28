@@ -1,7 +1,7 @@
 chemdoodle_sketcherInput <- function(inputId, label = "Get SMILES") {
   tagList(
     singleton(includeScript(
-      system.file("inst/cdBinding.js", .packageName))),
+      system.file("js/cdBinding.js", package=.packageName))),
     span(class="chemdoodle_sketcher",
          chemdoodle_sketcher(),
          
